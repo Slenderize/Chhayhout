@@ -148,39 +148,39 @@ MY_STRING my_string_init_c_string(const char* c_string)
 
 int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 {
-	My_String *pLeft_string = hLeft_string;
-	My_String *pRight_string = hRight_string;
-	int i;
-	if(pLeft_string->size > pRight_string->size)
-	{
-		for(i=0;i<=pLeft_string->size; i++)
-		{
-			if(pLeft_string->data[i] < pRight_string->data[i])
-			{
-				return -1;
-			}
-			else if(pLeft_string->data[i] > pRight_string->data[i])
-			{
-				return 1;
-			}
-		}
-		return 0;
-	}
-	else
-	{
-		for(i=0;i<=pLeft_string->size; i++)
-		{
-			if(pLeft_string->data[i] < pRight_string->data[i])
-			{
-				return -1;
-			}
-			else if(pLeft_string->data[i] > pRight_string->data[i])
-			{
-				return 1;
-			}
-		}
-		return 0;
-	}
+    My_String *pLeft_string = hLeft_string;
+    My_String *pRight_string = hRight_string;
+    int i;
+    if(pLeft_string->size > pRight_string->size)
+    {
+        for(i=0;i<=pLeft_string->size; i++)
+        {
+            if(pLeft_string->data[i] < pRight_string->data[i])
+            {
+                return -1;
+            }
+            else if(pLeft_string->data[i] > pRight_string->data[i])
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    else
+    {
+        for(i=0;i<=pLeft_string->size; i++)
+        {
+            if(pLeft_string->data[i] < pRight_string->data[i])
+            {
+                return -1;
+            }
+            else if(pLeft_string->data[i] > pRight_string->data[i])
+            {
+                return 1;
+            }
+        }
+        return 0;
+    }
 }
 
 
@@ -209,13 +209,13 @@ void my_string_destroy(MY_STRING* phMy_string)
 
 Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
 {
-	int i;
-	My_String* pResult = (My_string *) hResult;
-	My_String* pAppend = (My_string *) hAppend;
-	for(i = 0; i <= pAppend->size-1;i++){
-		my_string_push_back(pResult, pAppend->data[i]);
-	}
-	return SUCCESS;
+    int i;
+    My_String* pResult = (My_String*)hResult;
+    My_String* pAppend = (My_String*)hAppend;
+    for(i = 0; i <= pAppend->size-1;i++){
+        my_string_push_back(pResult, pAppend->data[i]);
+    }
+    return SUCCESS;
 }
 
 
@@ -228,12 +228,12 @@ Status my_string_pop_back(MY_STRING hMy_string)
       return FAILURE;
     }
 
-  if(hMy_string -> size <= 0)
+    if(pMy_string->size <= 0)
     {
       return FAILURE;
     }
 
-  hMy_string->size--;
+    pMy_string->size--;
   return SUCCESS;
 }
 
@@ -243,55 +243,52 @@ Status my_string_push_back(MY_STRING hMy_string, char item){
   char* pTemp;
   int i;
   //If the array is filled with elements
-  if(hMy_string->size >= hMy_string->capacity){
+  if(pMy_string->size == pMy_string->capacity - 1){
       //doubling the capacity
-      int double_capacity = hMy_string->capacity * 2;
-      pTemp = malloc(sizeof(int)*double_capacity);
+      pTemp = (char*)malloc(sizeof(char)*pMy_string->capacity * 2);
 	    if(pTemp == NULL){
 		  return FAILURE;
 		}
      	else{
 		  //Copying the data from the old array to the new array
-		  for(i = 0 ; i < hMy_string->size; i++){
-		      pTemp[i] = hMy_string->data[i];
+		  for(i = 0 ; i < pMy_string->size; i++){
+		      pTemp[i] = pMy_string->data[i];
 		    }
 		  //Do not need the old array, free the memory
-		  free(hMy_string->data);
-		  hMy_string->data = pTemp;
+		  free(pMy_string->data);
+		  pMy_string->data = pTemp;
 		  //Increasing the capacity of the vector
-		  hMy_string->capacity *=2;
+		  pMy_string->capacity *=2;
 		}
     }
   //Adding the item to the end of the data array
-  hMy_string->data[hMy_string->size] = item;
+  pMy_string->data[pMy_string->size] = item;
   //increasing the size after adding the item
-  hMy_string->size++;
+  pMy_string->size += 1;
   //Successfully added the item and return
   return SUCCESS;
 }
 
 char* my_string_at(MY_STRING hMy_string, int index){
 	My_String* pMy_string = (My_String*)hMy_string;
-	if(index>hMy_string->size||index<0)
+	if(index>pMy_string->size||index<0)
    		return NULL;
-  	else{
-      return &(hMy_string->data[index]);
+  	else {
+      return &(pMy_string->data[index]);
     }
 }
 
 char* my_string_c_str(MY_STRING hMy_string)
 {
 	My_String* pMy_string = (My_String*)hMy_string;
-  if(hMy_string->data==NULL)
-    return NULL;
-  else
-    return hMy_string->data;
+	pMy_string->data[pMy_string->size] = '\0';
+	return pMy_string->data;
 }
 
 Boolean my_string_empty(MY_STRING hMy_string)
 {
 	My_String* pMy_string = (My_String*)hMy_string;
-	if(hMy_string->size > 0){
+	if(pMy_string->size > 0){
       return FALSE;
     }
   return TRUE;
